@@ -1,0 +1,50 @@
+/time set day
+/time set night
+/xp add @a 11 levels
+/kill
+/xp add @a 11 levels
+/xp add @a
+/xp add @a 11 levels
+/time set night
+/time set day
+/xp add @a 10 levels
+/time set day
+/time set night
+/time set day
+/xp add Player114 11
+/xp add Player114 11 levels
+/time set night
+/xp add Player492 10 levels
+/time set
+/time set night
+/xp add @a 11 levels
+/kill
+/xp add @a 11 levels
+/time set day
+/kill
+/time set night
+/time set 13500
+/xp add @a 11 levels
+/xp add @a 40 levels
+/time set
+/time set midnight
+/xp add @a 11 levels
+/kill
+/xp add @a 11 levels
+/xp add @a 60 levels
+/kill
+/xp add @a 11 levels
+/time set night
+/give @p diamond_sword{Enchantments:[{id:"minecraft:sharpness",lvl:5}]} 1
+/give @p diamon
+/give @p minecraft:command_block 1
+/kill
+/weather
+/weather clear
+/time set night
+/time set midnight
+/xp add @a 11 levels
+/time set midnight
+/re
+/xp add @a 11 levels
+/time set midnight
