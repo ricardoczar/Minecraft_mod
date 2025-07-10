@@ -1,0 +1,11 @@
+echo "# IntelliJ IDEA
+.idea/
+
+# Build e caches
+build/
+run/
+.gradle/
+
+# Logs e temporários
+*.log
+*.tmp" > .gitignore
