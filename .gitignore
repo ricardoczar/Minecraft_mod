@@ -2,8 +2,10 @@ echo "# IntelliJ IDEA
 .idea/
 
 # Build e caches
-build/
-run/
+run/saves
+run/crash-reports
+run/logs
+run/command_history.txt
 .gradle/
 
 # Logs e temporários

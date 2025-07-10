@@ -15,37 +15,42 @@ public class MobXpDropManager {
             if (!(entity instanceof LivingEntity living)) return;
             if (living.getWorld().isClient()) return;
 
-            int bonusXp = 0;
+            // Verifica se quem matou foi um jogador
+            if (!(source.getAttacker() instanceof net.minecraft.entity.player.PlayerEntity player)) return;
 
-            // Adiciona XP baseado nos efeitos ativos
+            // Calcula porcentagem de XP bônus com base no nível do jogador
+            int level = player.experienceLevel;
+            int bonusPercent = (level / 10) * 5; // Ex: nível 30 → 15% extra
+
+            // XP base pode ser estimado (opcional) ou fixo. Aqui usaremos 5 como exemplo base.
+            int baseXp = 5; // ou qualquer valor médio que desejar como referência
+
+            // Calcula XP extra com base nos efeitos e equipamentos do mob
+            int xpBonusFlat = 0;
+
             for (StatusEffectInstance effect : living.getStatusEffects()) {
-                if (effect.getEffectType() == StatusEffects.STRENGTH) {
-                    bonusXp += 10;
-                } else if (effect.getEffectType() == StatusEffects.RESISTANCE) {
-                    bonusXp += 10;
-                } else if (effect.getEffectType() == StatusEffects.REGENERATION) {
-                    bonusXp += 5;
-                } else {
-                    bonusXp += 1; // qualquer outro efeito dá 1 de XP extra
-                }
+                xpBonusFlat += 1;
             }
 
-            // XP adicional por equipamentos
             for (EquipmentSlot slot : EquipmentSlot.values()) {
                 if (!living.getEquippedStack(slot).isEmpty()) {
-                    bonusXp += 2;
+                    xpBonusFlat += 2;
                 }
             }
 
-            // Aplica se houver bônus
-            if (bonusXp > 0) {
+            // Aplica o bônus percentual baseado no nível do jogador
+            int totalXp = baseXp + xpBonusFlat;
+            int xpWithBonus = totalXp + (totalXp * bonusPercent / 100);
+
+            if (xpWithBonus > 0) {
                 ServerWorld world = (ServerWorld) living.getWorld();
                 world.spawnEntity(new ExperienceOrbEntity(
                         world,
                         living.getX(), living.getY(), living.getZ(),
-                        bonusXp
+                        xpWithBonus
                 ));
             }
         });
     }
+
 }

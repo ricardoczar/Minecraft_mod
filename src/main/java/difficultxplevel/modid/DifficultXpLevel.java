@@ -1,16 +1,12 @@
 package difficultxplevel.modid;
 
+import difficultxplevel.modid.entities.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.mob.CreeperEntity;
+import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.entity.mob.SkeletonEntity;
 import net.minecraft.entity.mob.ZombieEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,23 +17,21 @@ public class DifficultXpLevel implements ModInitializer {
 	@Override
 	public void onInitialize() {
 
+		MobXpDropManager.register();
 
 		ServerEntityEvents.ENTITY_LOAD.register((entity, serverWorld) -> {
 			if (entity instanceof ZombieEntity zombie) {
-				ZombieEquipmentManager.tryEquipZombie(zombie, serverWorld);
+				ZombieManager.tryEquipZombie(zombie, serverWorld);
 			}
-			Registry<Enchantment> enchantmentRegistry =
-					serverWorld.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
-			ItemStack sword = new ItemStack(Items.DIAMOND_SWORD);
-			RegistryEntry<Enchantment> sharpnessEntry = enchantmentRegistry.getOrThrow(Enchantments.SHARPNESS);
-			sword.addEnchantment(sharpnessEntry, 3);
-
-
-
-
 
 			if (entity instanceof SkeletonEntity skeleton) {
-				SkeletonEquipmentManager.tryEquipSkeleton(skeleton, serverWorld);
+				SkeletonManager.tryEquipSkeleton(skeleton, serverWorld);
+			}
+			if (entity instanceof EndermanEntity enderman){
+				EndermanManager.EndermanStatus(enderman, serverWorld);
+			}
+			if (entity instanceof CreeperEntity creeper){
+
 			}
 
 

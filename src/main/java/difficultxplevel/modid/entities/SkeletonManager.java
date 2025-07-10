@@ -8,7 +8,7 @@ import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 
 
-public class SkeletonEquipmentManager {
+public class SkeletonManager {
 
     public static void tryEquipSkeleton(SkeletonEntity skeleton, ServerWorld world) {
         for (PlayerEntity player : world.getPlayers()) {

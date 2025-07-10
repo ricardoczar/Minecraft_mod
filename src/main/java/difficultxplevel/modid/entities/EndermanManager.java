@@ -8,13 +8,13 @@ import net.minecraft.server.world.ServerWorld;
 
 public class EndermanManager {
 
-    public static void tryEquipEnderman(EndermanEntity enderman, ServerWorld world) {
+    public static void EndermanStatus(EndermanEntity enderman, ServerWorld world) {
 
         for (PlayerEntity player : world.getPlayers()) {
             enderman.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 20*60,2));
+
         }
 
-
-
     }
+
 }
