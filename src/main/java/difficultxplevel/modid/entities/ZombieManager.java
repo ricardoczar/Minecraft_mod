@@ -1,6 +1,7 @@
 package difficultxplevel.modid.entities;
 
 import difficultxplevel.modid.util.EnchantmentUtils;
+import jdk.jshell.Snippet;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -21,7 +22,6 @@ public class ZombieManager {
 
     public static void tryEquipZombie(ZombieEntity zombie, ServerWorld world) {
 
-        ItemStack EnchantedIronSword = new ItemStack(Items.IRON_SWORD);
 
         ItemStack EnchantedDiamondHelmet = new ItemStack(Items.DIAMOND_HELMET);
         ItemStack EnchantedDiamondChest = new ItemStack(Items.DIAMOND_CHESTPLATE);
@@ -35,9 +35,15 @@ public class ZombieManager {
         ItemStack EnchantedNetheriteLegging = new ItemStack(Items.NETHERITE_LEGGINGS);
         ItemStack EnchantedNetheriteBoots = new ItemStack(Items.NETHERITE_BOOTS);
 
+        ItemStack EnchantedIronSword = new ItemStack(Items.IRON_SWORD);
+        ItemStack EnchantedIronHelmet = new ItemStack(Items.IRON_HELMET);
+        ItemStack EnchantedIronChest = new ItemStack(Items.IRON_CHESTPLATE);
+        ItemStack EnchantedIronLegging = new ItemStack(Items.IRON_LEGGINGS);
+        ItemStack EnchantedIronBoots = new ItemStack(Items.IRON_BOOTS);
 
 
-            //NETHERITE WEAPONS/ARMOR
+
+        //NETHERITE WEAPONS/ARMOR
         tryApplyEnchant(world, EnchantedNetheriteSword, EnchantmentUtils::applyFireAspect, 0.25);
         tryApplyEnchant(world, EnchantedNetheriteSword, EnchantmentUtils::applyUnbreaking, 0.25);
         tryApplyEnchant(world, EnchantedNetheriteSword, EnchantmentUtils::applyKnockback, 0.25);
@@ -48,29 +54,51 @@ public class ZombieManager {
         tryApplyEnchant(world, EnchantedNetheriteLegging, EnchantmentUtils::applyProtection, 0.25);
         tryApplyEnchant(world, EnchantedNetheriteBoots, EnchantmentUtils::applyProtection, 0.25);
 
+        //DIAMOUND WEAPONS/ARMOR
+        tryApplyEnchant(world, EnchantedDiamondSword, EnchantmentUtils::applyFireAspect, 0.25);
+        tryApplyEnchant(world, EnchantedDiamondSword, EnchantmentUtils::applyUnbreaking, 0.25);
+        tryApplyEnchant(world, EnchantedDiamondSword, EnchantmentUtils::applyKnockback, 0.25);
+
+        tryApplyEnchant(world, EnchantedDiamondHelmet, EnchantmentUtils::applyProtection, 0.25);
+        tryApplyEnchant(world, EnchantedDiamondChest, EnchantmentUtils::applyProtection, 0.25);
+        tryApplyEnchant(world, EnchantedDiamondChest, EnchantmentUtils::applyThorns, 0.25);
+        tryApplyEnchant(world, EnchantedDiamondLegging, EnchantmentUtils::applyProtection, 0.25);
+        tryApplyEnchant(world, EnchantedDiamondBoots, EnchantmentUtils::applyProtection, 0.25);
+
+        //IRON WEAPONS/ARMOR
+        tryApplyEnchant(world, EnchantedDiamondSword, EnchantmentUtils::applyFireAspect, 0.25);
+        tryApplyEnchant(world, EnchantedDiamondSword, EnchantmentUtils::applyUnbreaking, 0.25);
+        tryApplyEnchant(world, EnchantedDiamondSword, EnchantmentUtils::applyKnockback, 0.25);
+
+        tryApplyEnchant(world, EnchantedIronHelmet, EnchantmentUtils::applyProtection, 0.25);
+        tryApplyEnchant(world, EnchantedIronChest, EnchantmentUtils::applyProtection, 0.25);
+        tryApplyEnchant(world, EnchantedIronChest, EnchantmentUtils::applyThorns, 0.25);
+        tryApplyEnchant(world, EnchantedIronLegging, EnchantmentUtils::applyProtection, 0.25);
+        tryApplyEnchant(world, EnchantedIronBoots, EnchantmentUtils::applyProtection, 0.25);
+
         for (PlayerEntity player : world.getPlayers()) {
             long time = world.getTimeOfDay() % 24000;
             int xp = player.experienceLevel;
+            double rand = Math.random();
 
             if (xp >= 60) {
                 if (time >= 13000 && time < 24000) {
                     zombie.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 20*60, 2));
+                    zombie.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED,20*60, 3));
                     zombie.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 20*60, 2));
                 } else {
+                    zombie.removeStatusEffect(StatusEffects.SPEED);
                     zombie.removeStatusEffect(StatusEffects.STRENGTH);
                     zombie.removeStatusEffect(StatusEffects.RESISTANCE);
 
                 }
-                if (Math.random() <0.08){
-                    equipWith(zombie, EquipmentSlot.MAINHAND, new ItemStack(Items.NETHERITE_SWORD));
-                }else if(Math.random() <0.05){
-                    equipWith(zombie, EquipmentSlot.MAINHAND, EnchantedNetheriteSword);
-                }
-                else if (Math.random() < 0.01){
+                if (rand < 0.015){
                     equipWith(zombie, EquipmentSlot.HEAD, EnchantedNetheriteHelmet);
                     equipWith(zombie, EquipmentSlot.CHEST, EnchantedNetheriteChest);
                     equipWith(zombie, EquipmentSlot.LEGS, EnchantedNetheriteLegging);
                     equipWith(zombie, EquipmentSlot.FEET, EnchantedNetheriteBoots);
+                }
+                if (rand <0.085) {
                     equipWith(zombie, EquipmentSlot.MAINHAND, EnchantedNetheriteSword);
                 }
 
@@ -78,19 +106,22 @@ public class ZombieManager {
             else if (xp >= 30) {
                 if (time >= 13000 && time < 24000) {
                     zombie.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 20*60, 1));
+                    zombie.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED,20*60, 2));
+                    zombie.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 20*60, 1));
                 } else {
+                    zombie.removeStatusEffect(StatusEffects.SPEED);
                     zombie.removeStatusEffect(StatusEffects.STRENGTH);
+                    zombie.removeStatusEffect(StatusEffects.RESISTANCE);
+
                 }
-                if (Math.random() < 0.1) {
-                    equipWith(zombie, EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_SWORD));
-                } else if (Math.random() < 0.05) {
-                    equipWith(zombie, EquipmentSlot.MAINHAND, EnchantedDiamondSword);
-                } else if (Math.random() < 0.01) {
-                    equipWith(zombie, EquipmentSlot.HEAD, EnchantedDiamondHelmet);
-                    equipWith(zombie, EquipmentSlot.CHEST, EnchantedDiamondChest);
-                    equipWith(zombie, EquipmentSlot.LEGS, EnchantedDiamondLegging);
-                    equipWith(zombie, EquipmentSlot.FEET, EnchantedDiamondBoots);
-                    equipWith(zombie, EquipmentSlot.MAINHAND, EnchantedDiamondSword);
+                if (rand < 0.015){
+                    equipWith(zombie, EquipmentSlot.HEAD, EnchantedNetheriteHelmet);
+                    equipWith(zombie, EquipmentSlot.CHEST, EnchantedNetheriteChest);
+                    equipWith(zombie, EquipmentSlot.LEGS, EnchantedNetheriteLegging);
+                    equipWith(zombie, EquipmentSlot.FEET, EnchantedNetheriteBoots);
+                }
+                if (rand <0.085) {
+                    equipWith(zombie, EquipmentSlot.MAINHAND, EnchantedNetheriteSword);
                 }
 
             }
@@ -101,15 +132,13 @@ public class ZombieManager {
                     zombie.removeStatusEffect(StatusEffects.STRENGTH);
                 }
 
-                if (Math.random() < 0.1) {
-                    equipWith(zombie, EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
-                } else if (Math.random() < 0.05) {
-                    equipWith(zombie, EquipmentSlot.MAINHAND, EnchantedIronSword);
-                } else if (Math.random() < 0.01) {
-                    equipWith(zombie, EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
-                    equipWith(zombie, EquipmentSlot.CHEST, new ItemStack(Items.IRON_CHESTPLATE));
-                    equipWith(zombie, EquipmentSlot.LEGS, new ItemStack(Items.IRON_LEGGINGS));
-                    equipWith(zombie, EquipmentSlot.FEET, new ItemStack(Items.IRON_BOOTS));
+                if (rand < 0.015){
+                    equipWith(zombie, EquipmentSlot.HEAD, EnchantedIronHelmet);
+                    equipWith(zombie, EquipmentSlot.CHEST, EnchantedIronChest);
+                    equipWith(zombie, EquipmentSlot.LEGS, EnchantedIronLegging);
+                    equipWith(zombie, EquipmentSlot.FEET, EnchantedIronBoots);
+                }
+                if (rand <0.085) {
                     equipWith(zombie, EquipmentSlot.MAINHAND, EnchantedIronSword);
                 }
 
@@ -126,8 +155,7 @@ public class ZombieManager {
     }
 
     private static void equipWith(ZombieEntity zombie, EquipmentSlot slot, ItemStack item) {
-            zombie.equipStack(slot, item);
-            zombie.setEquipmentDropChance(slot, 0.01f);
-
+        zombie.equipStack(slot, item);
+        zombie.setEquipmentDropChance(slot, 1.0f);
     }
 }
